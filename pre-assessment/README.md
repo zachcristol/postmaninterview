@@ -61,6 +61,34 @@ To start over from an empty database:
 docker compose down -v && docker compose up --build
 ```
 
+## Tests
+
+Two layers, matching the two things that can break: the JVM code, and the containerized
+deliverable itself. Both run against a real SQLite file (never the dev volume), not H2 -
+several behaviors here (like `Shipment`'s `INTEGER` id mapping) are SQLite-specific and
+would pass against H2 even if broken.
+
+**JVM tests** (`ShipmentRepositoryTest`, `PingControllerTest`) - repository round-trips and
+the `/actuator/health` + `/api/ping` contract, each against a fresh `@TempDir` SQLite file
+with a real Flyway run:
+
+```
+mvn test
+```
+
+Or, without local Maven, through the same image the `Dockerfile` builds with:
+
+```
+docker run --rm -v "$PWD":/build -w /build maven:3.9-eclipse-temurin-21 mvn test
+```
+
+**Container smoke test** - automates the "Verify the connection" steps above against the
+actual `docker compose` stack:
+
+```
+./scripts/smoke-test.sh
+```
+
 ## Scope
 
 Per the pre-assessment guide, this intentionally stops at proving connectivity: one
