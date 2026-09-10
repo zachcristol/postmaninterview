@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Exposes the health-check endpoint used to verify the app and database are up. */
 @RestController
 public class PingController {
 
