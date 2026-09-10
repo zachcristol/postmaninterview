@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.Instant;
 
+/** JPA entity representing a shipment in transit between two locations. */
 @Entity
 public class Shipment {
 
