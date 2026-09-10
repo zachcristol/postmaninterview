@@ -8,6 +8,6 @@ RUN mvn -B package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 RUN mkdir -p /data
-COPY --from=build /build/target/planet-express-0.1.0.jar app.jar
+COPY --from=build /build/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
