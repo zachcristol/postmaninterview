@@ -1,0 +1,12 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_PATH: /data/planetexpress.db
+    volumes:
+      - sqlite-data:/data
+
+volumes:
+  sqlite-data:
