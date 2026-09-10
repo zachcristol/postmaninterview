@@ -1,13 +1,13 @@
 # Planet Express - Pre-Assessment
 
-Spring Boot service backed by SQLite, proving the DB and backend are wired together.
+Spring Boot service backed by Postgres, proving the DB and backend are wired together.
 
 ## Stack
 
 - Java 21 / Spring Boot 3.3
-- Spring Data JPA + Hibernate (via `hibernate-community-dialects` for SQLite support)
+- Spring Data JPA + Hibernate
 - Flyway for schema migrations
-- SQLite (`org.xerial:sqlite-jdbc`)
+- Postgres 16 (`org.postgresql:postgresql`)
 
 ## Run it
 
@@ -15,13 +15,17 @@ Spring Boot service backed by SQLite, proving the DB and backend are wired toget
 docker compose up --build
 ```
 
-This builds the Spring Boot app (multi-stage Maven build) and starts it on port 8080,
-with the SQLite file at `/data/planetexpress.db` inside the container.
+This starts a Postgres container plus the Spring Boot app (multi-stage Maven build) on
+port 8080. The backend waits for Postgres's healthcheck before starting.
+
+Credentials come from `.env` (gitignored), with the same throwaway defaults baked into
+`docker-compose.yml` so it runs standalone if `.env` is missing. Copy `.env.example` to
+`.env` if you want to override them.
 
 ## Verify the connection
 
 Health check (Spring Actuator's DB health indicator - reports `UP` only if it can open
-a connection to the SQLite file):
+a connection to Postgres):
 
 ```
 curl localhost:8080/actuator/health
@@ -37,7 +41,7 @@ curl localhost:8080/api/ping
 Expected response:
 
 ```json
-{"status":"ok","database":"sqlite","shipmentCount":1}
+{"status":"ok","database":"postgres","shipmentCount":1}
 ```
 
 ## Schema changes

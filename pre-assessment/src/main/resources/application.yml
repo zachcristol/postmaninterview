@@ -2,13 +2,14 @@ spring:
   application:
     name: planet-express
   datasource:
-    url: jdbc:sqlite:${DB_PATH:/data/planetexpress.db}
-    driver-class-name: org.sqlite.JDBC
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/planetexpress}
+    username: ${DB_USER:planetexpress}
+    password: ${DB_PASSWORD:planetexpress}
+    driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
     locations: classpath:db/migration
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
       # Flyway owns the schema; Hibernate only checks the entities match it.
       ddl-auto: validate
