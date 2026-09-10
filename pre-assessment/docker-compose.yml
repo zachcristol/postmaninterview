@@ -1,12 +1,35 @@
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-planetexpress}
+      POSTGRES_USER: ${POSTGRES_USER:-planetexpress}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-planetexpress}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-planetexpress} -d ${POSTGRES_DB:-planetexpress}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build: .
     ports:
       - "8080:8080"
     environment:
-      DB_PATH: /data/planetexpress.db
-    volumes:
-      - sqlite-data:/data
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-planetexpress}
+      DB_USER: ${POSTGRES_USER:-planetexpress}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-planetexpress}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
 volumes:
-  sqlite-data:
+  postgres-data:

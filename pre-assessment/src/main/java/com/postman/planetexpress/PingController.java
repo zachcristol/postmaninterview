@@ -23,7 +23,7 @@ public class PingController {
         // Map.of has no defined iteration order.
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("status", "ok");
-        response.put("database", "sqlite");
+        response.put("database", "postgres");
         response.put("shipmentCount", shipmentCount);
         return response;
     }
