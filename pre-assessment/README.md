@@ -6,6 +6,7 @@ Spring Boot service backed by SQLite, proving the DB and backend are wired toget
 
 - Java 21 / Spring Boot 3.3
 - Spring Data JPA + Hibernate (via `hibernate-community-dialects` for SQLite support)
+- Flyway for schema migrations
 - SQLite (`org.xerial:sqlite-jdbc`)
 
 ## Run it
@@ -37,6 +38,23 @@ Expected response:
 
 ```json
 {"status":"ok","database":"sqlite","shipmentCount":1}
+```
+
+## Schema changes
+
+Flyway owns the schema. Migrations live in `src/main/resources/db/migration` and run at
+startup, before Hibernate opens a session; `ddl-auto` is `validate`, so Hibernate checks
+the entities against the migrated schema and refuses to start on a mismatch rather than
+altering tables behind your back.
+
+To change the schema, add the next numbered file (`V2__...sql`) and restart. Flyway
+applies only what hasn't run yet, so existing data is preserved. Never edit an applied
+migration - Flyway checksums them and will fail the next startup.
+
+To start over from an empty database:
+
+```
+docker compose down -v && docker compose up --build
 ```
 
 ## Scope
