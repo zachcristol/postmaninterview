@@ -1,4 +1,4 @@
-package com.postman.planetexpress;
+package com.postman.planetexpress.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
