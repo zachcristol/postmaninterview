@@ -2,30 +2,25 @@ package com.postman.planetexpress;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-// Real SQLite file + real Flyway run, not H2: this is the same reasoning as
-// ShipmentRepositoryTest - a SQLite-specific mapping shouldn't be verified against H2.
+// Real Postgres container + real Flyway run, not H2: this is the same reasoning as
+// ShipmentRepositoryTest - a Postgres-specific mapping shouldn't be verified against H2.
+@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PingControllerTest {
 
-    @TempDir
-    static Path tempDir;
-
-    @DynamicPropertySource
-    static void datasourceProperties(DynamicPropertyRegistry registry) throws IOException {
-        Path dbFile = tempDir.resolve("test.db");
-        registry.add("spring.datasource.url", () -> "jdbc:sqlite:" + dbFile);
-    }
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -41,9 +36,9 @@ class PingControllerTest {
     @Test
     void pingSeedsExactlyOneShipmentAndStaysIdempotent() {
         ResponseEntity<String> first = restTemplate.getForEntity("/api/ping", String.class);
-        assertThat(first.getBody()).isEqualTo("{\"status\":\"ok\",\"database\":\"sqlite\",\"shipmentCount\":1}");
+        assertThat(first.getBody()).isEqualTo("{\"status\":\"ok\",\"database\":\"postgres\",\"shipmentCount\":1}");
 
         ResponseEntity<String> second = restTemplate.getForEntity("/api/ping", String.class);
-        assertThat(second.getBody()).isEqualTo("{\"status\":\"ok\",\"database\":\"sqlite\",\"shipmentCount\":1}");
+        assertThat(second.getBody()).isEqualTo("{\"status\":\"ok\",\"database\":\"postgres\",\"shipmentCount\":1}");
     }
 }

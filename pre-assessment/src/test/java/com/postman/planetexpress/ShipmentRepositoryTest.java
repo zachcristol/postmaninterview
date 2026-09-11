@@ -2,32 +2,30 @@ package com.postman.planetexpress;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import com.postman.planetexpress.model.Shipment;
+import com.postman.planetexpress.repository.ShipmentRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-// Real SQLite file, not H2: the point of the INTEGER id mapping in Shipment.java is a
-// SQLite-specific quirk that an H2-backed test would pass even if it regressed.
+// Real Postgres container, not H2: the point of the identity-column id mapping in
+// Shipment.java is a Postgres-specific behavior that an H2-backed test would pass
+// even if it regressed.
+@Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ShipmentRepositoryTest {
 
-    @TempDir
-    static Path tempDir;
-
-    @DynamicPropertySource
-    static void datasourceProperties(DynamicPropertyRegistry registry) throws IOException {
-        Path dbFile = tempDir.resolve("test.db");
-        registry.add("spring.datasource.url", () -> "jdbc:sqlite:" + dbFile);
-    }
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @Autowired
     private ShipmentRepository shipmentRepository;
@@ -40,7 +38,7 @@ class ShipmentRepositoryTest {
     }
 
     @Test
-    void roundTripsAllFieldsThroughSqlite() {
+    void roundTripsAllFieldsThroughPostgres() {
         Instant before = Instant.now().minus(1, ChronoUnit.SECONDS);
         Shipment saved = shipmentRepository.save(new Shipment("Earth", "Mars", "IN_TRANSIT"));
 
