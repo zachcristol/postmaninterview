@@ -76,6 +76,16 @@ instance with a real Flyway run. Requires Docker to be running:
 mvn test
 ```
 
+Local Maven must run on JDK 21, not just `>=21` - if your machine has a newer JDK on
+`JAVA_HOME` (e.g. via Homebrew), Lombok's annotation processor (used for entity getters)
+silently no-ops instead of failing loudly, so `Shipment`'s getters won't exist and the
+build fails with confusing "cannot find symbol" errors. Point `JAVA_HOME` at a JDK 21
+install before running Maven locally:
+
+```
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+```
+
 Or, without local Maven, through the same image the `Dockerfile` builds with:
 
 ```

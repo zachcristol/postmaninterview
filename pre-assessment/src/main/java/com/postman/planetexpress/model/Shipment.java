@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.Instant;
+import lombok.Getter;
 
 /** JPA entity representing a shipment in transit between two locations. */
 @Entity
+@Getter
 public class Shipment {
 
     @Id
@@ -35,25 +37,5 @@ public class Shipment {
         this.destination = destination;
         this.status = status;
         this.createdAt = Instant.now();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
     }
 }
