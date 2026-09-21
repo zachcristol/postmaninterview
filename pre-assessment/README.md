@@ -72,8 +72,8 @@ docker compose down -v && docker compose up --build
 
 Two layers, matching the two things that can break: the JVM code, and the containerized
 deliverable itself. Both run against a real Postgres container via Testcontainers (never
-the dev volume), not H2 - several behaviors here (like `Shipment`'s identity-column id
-mapping) are Postgres-specific and would pass against H2 even if broken.
+the dev volume), not H2 - several behaviors here (like the timestamptz, numeric and jsonb
+columns) are Postgres-specific and would pass against H2 even if broken.
 
 **JVM tests** (`ShipmentRepositoryTest`, `PingControllerTest`) - repository round-trips and
 the `/actuator/health` + `/api/ping` contract, each against a fresh Testcontainers Postgres

@@ -20,7 +20,7 @@ public class ShipmentService {
     public long seedIfEmpty() {
         synchronized (seedLock) {
             if (shipmentRepository.count() == 0) {
-                shipmentRepository.save(new Shipment("Earth", "Mars", "IN_TRANSIT"));
+                shipmentRepository.save(new Shipment("shp_seed01", "dst_mars"));
             }
             return shipmentRepository.count();
         }
