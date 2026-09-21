@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <!-- Docker 29 rejects the API version used by the Testcontainers bundled with Boot 3.3.x -->
+        <!-- Boot 3.3's managed 1.19.x speaks Docker API 1.32, which Docker Engine 29+ (min API 1.40) rejects -->
         <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
 
