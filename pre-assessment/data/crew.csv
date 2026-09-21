@@ -1,0 +1,13 @@
+id,full_name,rank,species,home_planet_id,status,hired_at,cargo_certifications,max_consecutive_days,pilot_license_id,notes
+crw_fry01,Philip J. Fry,Delivery Boy,human,plnt_earth,active,3000-01-01T00:00:00Z,standard,14,,Thawed 3000-01-01. Certified for standard cargo only.
+crw_leela1,Turanga Leela,Captain,mutant,plnt_earth,active,3000-01-04T00:00:00Z,standard;biological_hazard;sentient_cargo;dark_matter,21,lic_pe_00001,Sole qualified pilot for hazard routes.
+crw_bender,Bender Bending Rodriguez,Assistant Manager of Sales,robot,plnt_earth,active,3000-01-04T00:00:00Z,standard;contraband,30,,Repeated cargo shrinkage incidents. Do not assign valuables.
+crw_zoid01,John A. Zoidberg,Staff Doctor,decapodian,dst_decapod_10,active,3000-02-11T00:00:00Z,biological_hazard;deceased,14,,Medical clearance for biological and deceased cargo.
+crw_amy001,Amy Wong,Intern,human,dst_mars,active,3000-03-02T00:00:00Z,standard;dark_matter,10,lic_pe_00014,Doctoral candidate in applied physics. Dark matter certified.
+crw_herm01,Hermes Conrad,Bureaucrat Grade 34,human,plnt_earth,active,2999-11-15T00:00:00Z,standard,20,,Handles permits and customs paperwork. Rarely flies.
+crw_prof01,Hubert J. Farnsworth,Owner,human,plnt_earth,active,2985-04-09T00:00:00Z,standard;dark_matter;temporal_artifact;deceased,7,lic_pe_00002,Age 160. Medical restrictions on consecutive days.
+crw_scruf1,Scruffy Scruffington,Janitor,human,plnt_earth,active,3000-06-01T00:00:00Z,,30,,No cargo certifications on file.
+crw_kif001,Kif Kroker,Lieutenant (seconded),amphibiosan,dst_amphibios_9,on_leave,3001-02-20T00:00:00Z,standard;sentient_cargo,18,lic_doop_4412,DOOP liaison. Currently on parental leave.
+crw_zapp01,Zapp Brannigan,Captain (DOOP),human,plnt_earth,suspended,3001-05-30T00:00:00Z,standard;contraband;sentient_cargo,25,lic_doop_0001,Suspended pending review of the Spheron 1 incident.
+crw_nib001,Nibbler,Consultant,nibblonian,dst_eternium,active,3000-09-14T00:00:00Z,dark_matter;temporal_artifact,28,,Dark matter production. Clearance level classified.
+crw_elzar1,Elzar,Contract Chef,neptunian,dst_neptune,inactive,3001-08-02T00:00:00Z,standard;biological_hazard,12,,Contract expired 3002-05-31. Retained for record linkage.
