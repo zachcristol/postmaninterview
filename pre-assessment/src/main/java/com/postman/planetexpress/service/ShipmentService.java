@@ -3,6 +3,7 @@ package com.postman.planetexpress.service;
 import com.postman.planetexpress.model.Shipment;
 import com.postman.planetexpress.repository.ShipmentRepository;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,9 @@ public class ShipmentService {
             id = "shp_" + suffix;
         } while (shipmentRepository.existsById(id));
         return id;
+    }
+
+    public List<Shipment> listShipments() {
+        return shipmentRepository.findAll();
     }
 }
