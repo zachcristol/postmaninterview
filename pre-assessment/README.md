@@ -51,9 +51,16 @@ startup, before Hibernate opens a session; `ddl-auto` is `validate`, so Hibernat
 the entities against the migrated schema and refuses to start on a mismatch rather than
 altering tables behind your back.
 
-To change the schema, add the next numbered file (`V2__...sql`) and restart. Flyway
-applies only what hasn't run yet, so existing data is preserved. Never edit an applied
-migration - Flyway checksums them and will fail the next startup.
+To change the schema, add the next numbered file (`V2__...sql`) and rebuild the app image.
+Flyway applies only what hasn't run yet, so existing data is preserved. Never edit an
+applied migration - Flyway checksums them and will fail the next startup.
+
+To apply it, rebuild and start (migrations are baked into the image, so a plain `up` won't
+pick up the new file):
+
+```
+docker compose up --build
+```
 
 To start over from an empty database:
 
