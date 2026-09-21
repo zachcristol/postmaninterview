@@ -44,6 +44,19 @@ Expected response:
 {"status":"ok","database":"postgres","shipmentCount":1}
 ```
 
+## CLI
+
+Create a shipment bound for a destination (starts Postgres if needed, rebuilds the image):
+
+```
+./scripts/planet-express create-shipment --destination=dst_mars
+```
+
+Omit `--destination` to be prompted for it. Destinations are `dst_` ids as in
+`data/shipments.csv`; anything else is rejected with exit code 1. The shipment is saved as
+a `draft` out of New New York. The CLI is the same jar run under the `cli` profile
+(`SPRING_PROFILES_ACTIVE=cli`), which disables the web server and quiets logging.
+
 ## Schema changes
 
 Flyway owns the schema. Migrations live in `src/main/resources/db/migration` and run at
@@ -109,5 +122,4 @@ actual `docker compose` stack:
 ## Scope
 
 Per the pre-assessment guide, this intentionally stops at proving connectivity: one
-minimal entity (`Shipment`), no UI/CLI/SDK, and no real schema or business logic since
-that depends on the actual Planet Express data provided during the live session.
+minimal entity (`Shipment`), no UI/SDK, and no business logic beyond creating a shipment.
