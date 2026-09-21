@@ -35,10 +35,12 @@ public class ShipmentController {
 
     @PostMapping
     public ResponseEntity<Shipment> create(@RequestBody CreateShipmentRequest request) {
-        if (request.destinationId() == null || request.destinationId().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "destinationId is required");
+        Shipment shipment;
+        try {
+            shipment = shipmentService.create(request.destinationId());
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        Shipment shipment = shipmentService.createShipment(request.destinationId().trim());
         return ResponseEntity.created(URI.create("/api/shipments/" + shipment.getId())).body(shipment);
     }
 }

@@ -39,7 +39,7 @@ class ShipmentControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         Shipment created = response.getBody();
         assertThat(created).isNotNull();
-        assertThat(created.getId()).matches("shp_[0-9a-f]{6}");
+        assertThat(created.getId()).matches("shp_[a-z0-9]{6}");
         assertThat(response.getHeaders().getLocation()).hasPath("/api/shipments/" + created.getId());
 
         Shipment stored = shipmentRepository.findById(created.getId()).orElseThrow();
